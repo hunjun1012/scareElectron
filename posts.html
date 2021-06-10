@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>공지사항 및 전달사항</title>
+    <link rel="stylesheet" type="text/css" href="posts.css">
+</head>
+
+<body>
+<center>
+    <h2>공지사항</h2>
+    <table class="type07" style="text-align: center;">
+        <thead>
+        <tr>
+          <th scope="cols">제목</th>
+          <th scope="cols">내용</th>
+        </tr> 
+        </thead>
+
+        <tbody id="table_content"></tbody>
+        
+    </table><br>
+    <button id="close-btn">닫기</button>
+</center> 
+</body>
+
+<script src="mariaDBConn.js"></script>
+<script>
+//공지사항 가져온 후 db 행만큼 생성
+  getPosts()  
+  .then((rows) => {
+    rows.forEach((post) => {
+      document.getElementById('table_content').innerHTML += '<tr><th scope="row" id="title">' + post.title + '</th>'
+        + '<td id="description">' + post.description + '</td>'
+        + '</tr>';
+    })
+  })
+  .catch((errMsg) => {
+    console.log(errMsg);
+  })
+//닫기버튼
+  document.getElementById("close-btn").addEventListener("click", function (e) {
+    const remote = require('electron').remote
+    let w = remote.getCurrentWindow()
+    w.close()
+  }); 
+</script>
+</html>

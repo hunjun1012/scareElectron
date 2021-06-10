@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Scare 상담원 프로그램</title>
+        <link rel="stylesheet" type="text/css" href="status.css">
+    </head>
+
+    <body>
+        <div>
+            <img src="logo-dark.png" height="20px;" style="margin-left: 10px; margin-top: 10px;">
+        <button id="closelogout"><b>X</b></button>
+        <button id="minimize-btn">─</button>
+        </div>  
+
+        <center>
+        <div style="margin-top: 10px;">   
+        <input type="hidden" id="error">
+        <input type="hidden" id="ports">
+        <input type="hidden" id="portNumber">
+        <!-- 체온 및 상태 -->
+            <table id="table01">
+                <tr>
+                    <td><p id="tempText">온도</p>
+                    <td><input type="text" id="sensorValue"></td>   
+                    <!-- <td><input type="text" id="statuses"></td> -->
+                </tr>
+            </table>
+        </div>
+        </center>
+
+        <!-- 로그아웃 버튼 -->
+        <center>
+            <span>
+            <button id="logoutbtn" type="button" class="btn_logout">로그아웃</button>
+            <input disabled type="hidden" id="addTemp" onkeyup='printName()' placeholder="+ ℃" value="0">
+            <input id='result' type="hidden">
+            </span>
+        </center>
+
+
+    </body>
+    <script src="renderer.js"></script>
+    <script src="mariaDBConn.js"></script>
+    <script>
+ //최소화버튼
+ document.getElementById("minimize-btn").addEventListener("click", function (e) {
+    const remote = require('electron').remote
+    let w = remote.getCurrentWindow()
+    w.minimize()
+  }); 
+
+  function printName()  {
+  const addTemp = document.getElementById('addTemp').value;
+  document.getElementById("result").innerText = addTemp;
+}
+// document.write( screen.width + ' * ' + screen.height + ' 입니다. <br>' );
+    </script>
+</html>

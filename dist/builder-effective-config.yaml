@@ -1,0 +1,20 @@
+directories:
+  output: ./dist/
+  buildResources: ./resources/installer/
+  app: .
+productName: Scare 상담원 프로그램
+appId: com.electron.hello
+asar: true
+protocols:
+  name: helloElectron
+  schemes:
+    - helloelectron
+win:
+  target:
+    - zip
+    - nsis
+  icon: ./resources/installer/Icon.ico
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+electronVersion: 5.0.0

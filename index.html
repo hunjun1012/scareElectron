@@ -1,19 +1,132 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Scare 상담원 프로그램</title>
+    <link rel="stylesheet" type="text/css" href="login.css">
+</head>
+
+<body>
+    
+    <div> 
+    <img src="logo-dark.png" height="20px;" style="margin-left: 10px; margin-top: 10px;">
+    <img src="login.png" height="25px;" style=" margin-top: 13px; width: 120px;">
+    <button style="float: right; margin-top: 0px; margin-right: 0; width: 25px; height: 25px; background-color: rgb(250, 246, 246); border: unset;" id="close-btn"><b>X</b></button>
+    <button style="float: right; margin-top: 0px; margin-right: -5px; width: 25px; height: 25px; background-color: rgb(250, 246, 246); border: unset;" id="minimize-btn">─</button>
+    </div>
+    <!-- LOGIN 글씨 -->
+    <!-- <center>
+        <table> 
+            <td style="font-size: 42px; color:#f33751; font-weight: bold; text-transform: uppercase;">LOGIN</td>
+        </table>
+    </center>
+    <br><br> -->
+
+
+    <!-- ID,PASSWORD 입력 -->
+    <form method="post" id="authForm" action="">
+        <!-- <input type="hidden" name="redirectUrl" value="">
+        <center>
+            <fieldset>
+                <div>
+                    <input onkeydown="enterkey()" type="text" id="loginId" placeholder="아이디" value=""
+                        style="background-color: white; font-size: 25px;">
+
+                    <input onkeydown="enterkey()" type="password" id="loginPw" placeholder="비밀번호" value=""  
+                        style="background-color: white; font-size: 25px;"><br>
+                </div>
+        </center> -->
+        <!-- 비밀번호 보기 -->
+        <!-- <input type="checkbox" id="passwordView" value=" 비밀번호 보기" onclick="text(this)"><span style="font-size: 17px; color: gray;">비밀번호 보기 -->
+
+        <!-- 로그인 버튼 -->
+        <!-- <center>
+            <div>
+                <button id="loginbtn" type="button" class="btn_login" onclick="gostatus()"
+                    style=" font-weight:600">로그인</button>
+            </div>
+        </center>
+        </fieldset> -->
+
+        <center>
+            <div class="login" style="background-color: #606060; width: 90%; border-radius: 10px; margin-top: 10px; height: 150px; box-shadow: 10px 10px rgb(56, 54, 54);">
+                <div class="heading" style="margin-top: 1px;">
+                  <!-- <h2>Login</h2> -->
+              
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                      <input onkeydown="enterkey()" id="loginId" value="" type="text" class="form-control" placeholder="아이디">
+                    </div>
+              
+                      <div class="input-group input-group-lg" style="margin-top: 1px;">
+                        <span class="input-group-addon"><i class="fa fa-lock" style="width: 15px;"></i></span>
+                        <input onkeydown="enterkey()" id="loginPw" value="" type="password" class="form-control" placeholder="비밀번호">
+                      </div>
+              
+                      <button onclick="gostatus()" id="loginbtn" type="button" class="float" style="margin-top: 3px; background-color: rgb(226, 223, 223); border: rgb(175, 170, 170); border-radius: 5px; border-style: solid;
+                      border-width: 1px; height: 35px; width: 150px;"><b>로그인</b></button>
+                </div>
+            </div>
+        </center>
+    </form>
+</body>
+
+<script src="mariaDBConn.js"></script>
+<script>
+    //로그인 버튼 및 로그인 체크
+    async function gostatus() {            
+        loginCheck(loginId.value, loginPw.value)
+        .then((rows) => {
+            console.log(rows);
+            var user = rows[0];
+            console.log(user);  
+            setTemp(user.id, user.temperature, user.addtemperature, 1);
+            insertLoggedin(user.id, user.name, user.team, 1);
+            setCurrentUser(user);
+            if (user.id == loginId.value) {  
+                console.log("login succes");
+                location.href = 'status.html?userid='+user.id;
+            } else {
+                console.log("login fail");
+            }
+          return user;
+        })
+        .catch(err => {
+          console.log(err); 
+          conn.end();
+        });
+    }
+
+    //엔터키 입력기능
+    function enterkey() {
+        if (window.event.keyCode == 13) {
+            gostatus();
+        }
+    }
+
+    //비밀번호 보기
+    function text(item) {
+        if (document.getElementById('loginPw').type == "password") {
+            document.getElementById('loginPw').type = "text";
+        } else {
+            document.getElementById('loginPw').type = "password";
+        }
+    }
+
+    //닫기버튼
+  document.getElementById("close-btn").addEventListener("click", function (e) {
+    const remote = require('electron').remote
+    let w = remote.getCurrentWindow()
+    w.close()
+  }); 
+
+  //최소화버튼
+  document.getElementById("minimize-btn").addEventListener("click", function (e) {
+    const remote = require('electron').remote
+    let w = remote.getCurrentWindow()
+    w.minimize()
+  });
+</script>
+
 </html>

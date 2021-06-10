@@ -4,7 +4,9 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "deploy": "electron-builder --windows nsis:ia32",
+    "rebuild": "electron-rebuild -f -w yourmodule"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -17,6 +19,46 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^11.2.1"
+    "electron": "^5.0.0",
+    "electron-builder": "^22.3.2",
+    "electron-rebuild": "^2.3.4"
+  },
+  "dependencies": {
+    "@serialport/bindings": "^2.0.8",
+    "bcrypt-nodejs": "0.0.3",
+    "electron-is-dev": "latest",
+    "electron-positioner": "^4.1.0",
+    "mariadb": "^2.5.2",
+    "prebuild-install": "^6.0.0",
+    "serialport": "^7.1.5",
+    "tableify": "^1.1.0",
+    "windows-build-tools": "^5.2.2"
+  },
+  "build": {
+    "productName": "Scare 상담원 프로그램",
+    "appId": "com.electron.hello",
+    "asar": true,
+    "protocols": {
+      "name": "helloElectron",
+      "schemes": [
+        "helloelectron"
+      ]
+    },
+    "win": {
+      "target": [
+        "zip",
+        "nsis"
+      ],
+      "icon": "./resources/installer/Icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "directories": {
+      "buildResources": "./resources/installer/",
+      "output": "./dist/",
+      "app": "."
+    }
   }
 }
